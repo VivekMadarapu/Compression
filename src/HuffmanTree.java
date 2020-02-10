@@ -1,19 +1,12 @@
+import com.sun.source.tree.BinaryTree;
+
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.PriorityQueue;
 
 public class HuffmanTree {
-    public Heap heap;
-    public int size;
-    private int maxsize;
+    public PriorityQueue<BinaryTree> tree;
 
-    public void huffHeapify(PriorityQueue<Integer> freq, HashMap<Integer, Character> data){
-        while(freq.size() > 1){
-            int min = freq.poll();
-            if(freq.size() > 0){
-                int min2 = freq.poll();
-            }
-        }
+    public HuffmanTree(HashMap<Object, Integer> frequencies){
 
     }
 
