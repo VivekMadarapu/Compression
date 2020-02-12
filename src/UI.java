@@ -17,7 +17,6 @@ public class UI {
                 if (response.equals("q")){
                     break;
                 }
-
                 compressionHandler = new CompressionHandler(response);
                 compressionHandler.compress();
                 System.out.println(response + " has been compressed into " + response.substring(0, response.length()-3) + "viv");
@@ -28,7 +27,6 @@ public class UI {
                 if (response.equals("q")){
                     break;
                 }
-
                 compressionHandler = new CompressionHandler(response);
                 compressionHandler.decompress();
                 System.out.println(response + " has been decompressed into " + response.substring(0, response.length()-3) + "txt");

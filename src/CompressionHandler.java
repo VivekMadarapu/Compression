@@ -7,11 +7,13 @@ import java.util.Scanner;
 public class CompressionHandler {
 
     private HashMap<Object, Integer> freq = new HashMap<>();
+    HuffmanTree tree;
     File input;
 
     public CompressionHandler(String file) throws FileNotFoundException {
         input = new File(file);
         initFreq(file);
+        tree = new HuffmanTree(freq);
     }
 
     public void initFreq(String file) throws FileNotFoundException {
@@ -32,6 +34,7 @@ public class CompressionHandler {
     public void compress() throws IOException {
         File out = new File(input.getName().substring(0, input.getName().length()-3) + "viv");
         createFile(out);
+
     }
 
     public void decompress() throws IOException {
