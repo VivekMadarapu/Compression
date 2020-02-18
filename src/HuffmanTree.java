@@ -2,10 +2,11 @@ import java.util.*;
 
 public class HuffmanTree {
     public PriorityQueue<Node> tree;
-    public HashMap<Object, String> codes;
+    public Map<Object, String> codes;
 
     public HuffmanTree(HashMap<Object, Integer> frequencies){
         tree = new PriorityQueue<>();
+        codes = new HashMap<>();
         Set<Object> keys = frequencies.keySet();
         for (Object key : keys) {
             tree.add(new Node(new Entry(key, frequencies.get(key))));
@@ -13,38 +14,29 @@ public class HuffmanTree {
         while(tree.size() > 1){
             Node first = tree.poll();
             Node second = tree.poll();
-            Node newNode =  new Node(new Entry(null, first.getData().frequency + second.getData().frequency));
+            Node newNode = new Node(new Entry('\0', first.getData().frequency + second.getData().frequency));
+            newNode.setLeft(first);
+            newNode.setRight(second);
             tree.add(newNode);
         }
-        for (Object key : keys) {
-            codes.put(key, findCode(new Entry(key, frequencies.get(key))));
-        }
-
+        makeCodes(tree.peek(), "");
     }
 
-    public String findCode(Object item){
-        if (item == null) throw new NullPointerException("parameters cannot be null!");
-        Queue<Node> nodes = new Queue<>(tree.peek());
-        StringBuilder code = new StringBuilder();
-        while (!nodes.isEmpty()) {
-            if (nodes.peek().getData().equals(item))
-                return code.toString();
-            if (nodes.peek().getLeft() != null)
-                code.append("0");
-            nodes.add(nodes.peek().getLeft());
-            if (nodes.peek().getRight() != null)
-                code.append("1");
-            nodes.add(nodes.peek().getRight());
-            nodes.iterator().next();
+    public void makeCodes(Node root, String str)
+    {
+        if (root == null)
+            return;
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            codes.put((root.getData()).data, str);
         }
-        throw new NullPointerException("item is not in the BinaryTree.");
+
+        makeCodes(root.getLeft(), str + "0");
+        makeCodes(root.getRight(), str + "1");
     }
 
     public String getCode(Object o){
         return codes.get(o);
     }
-
-
-
 
 }
