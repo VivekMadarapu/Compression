@@ -87,7 +87,13 @@ public class CompressionHandler {
         CompressionHandler brick = new CompressionHandler("dream.txt");
         brick.compress();
         brick.decompress();
-
+//        File out = new File("freqs.csv");
+//        out.createNewFile();
+//        FileWriter writer = new FileWriter(out);
+//        for (Map.Entry<Character, Integer> c : brick.freq.entrySet()) {
+//            writer.write(c.getKey() + "," + c.getValue() + "\n");
+//            writer.flush();
+//        }
     }
 
 }

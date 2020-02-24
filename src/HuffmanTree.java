@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class HuffmanTree {
@@ -39,4 +41,8 @@ public class HuffmanTree {
         return codes.get(o);
     }
 
+    public static void main(String[] args) throws IOException {
+
+
+    }
 }
