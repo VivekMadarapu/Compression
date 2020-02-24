@@ -2,10 +2,10 @@ import java.util.Objects;
 
 public class Entry
 {
-    public Object data;
+    public Character data;
     public int frequency;
 
-    public Entry(Object data, int frequency)
+    public Entry(Character data, int frequency)
     {
         this.data = data;
         this.frequency = frequency;

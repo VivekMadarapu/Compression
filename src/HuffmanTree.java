@@ -2,13 +2,13 @@ import java.util.*;
 
 public class HuffmanTree {
     public PriorityQueue<Node> tree;
-    public Map<Object, String> codes;
+    public Map<Character, String> codes;
 
-    public HuffmanTree(HashMap<Object, Integer> frequencies){
+    public HuffmanTree(HashMap<Character, Integer> frequencies){
         tree = new PriorityQueue<>();
         codes = new HashMap<>();
-        Set<Object> keys = frequencies.keySet();
-        for (Object key : keys) {
+        Set<Character> keys = frequencies.keySet();
+        for (Character key : keys) {
             tree.add(new Node(new Entry(key, frequencies.get(key))));
         }
         while(tree.size() > 1){
@@ -28,7 +28,7 @@ public class HuffmanTree {
             return;
 
         if (root.getLeft() == null && root.getRight() == null) {
-            codes.put((root.getData()).data, str);
+            codes.put((Character) root.getData().data, str);
         }
 
         makeCodes(root.getLeft(), str + "0");
