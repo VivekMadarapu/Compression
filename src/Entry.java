@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Entry
+public class Entry implements Comparable
 {
     public Character data;
     public int frequency;
@@ -23,5 +23,22 @@ public class Entry
     @Override
     public int hashCode() {
         return Objects.hash(data, frequency);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o == null){
+            throw new NullPointerException();
+        }
+        else if(!o.getClass().equals(Entry.class)){
+            throw new ClassCastException();
+        }
+        else if(((Entry) o).frequency < frequency){
+            return 1;
+        }
+        else if(((Entry) o).frequency > frequency){
+            return -1;
+        }
+        return 0;
     }
 }

@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -42,7 +39,7 @@ public class CompressionHandler {
         int version = 0;
         while (output.exists()) {
             version++;
-            output = new File("(" + version + ") " + input.getName()+ ".viv");
+            output = new File(input.getName() + "(" + version + ")"  + ".viv");
         }
         //noinspection ResultOfMethodCallIgnored
         output.createNewFile();
@@ -52,9 +49,10 @@ public class CompressionHandler {
         while(file.hasNext()){
             char nextChar = file.next().charAt(0);
             compressSize += tree.codes.get(nextChar).length();
-            bitOut.writeBits(tree.codes.get(nextChar).length(), Integer.parseInt(tree.codes.get(nextChar), 2));
+            bitOut.writeBits(tree.codes.get(nextChar).length(), tree.intCodes.get(nextChar));
             bitOut.flush();
         }
+        bitOut.writeBits(tree.codes.get(null).length(), tree.intCodes.get(null));
 
     }
 
@@ -63,12 +61,12 @@ public class CompressionHandler {
         int version = 0;
         while (out.exists()) {
             version++;
-            out = new File("(" + version + ") " + output.getName() + ".decompressed.txt");
+            out = new File(output.getName() + ".decompressed" + "(" + version + ")"  + ".txt");
         }
         //noinspection ResultOfMethodCallIgnored
         out.createNewFile();
         BitInputStream bitIn = new BitInputStream(output);
-        FileWriter writer = new FileWriter(out);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(out));
         Map<String, Character> swapped = new HashMap<>();
         for(Map.Entry<Character,String> entry : tree.codes.entrySet()) {
             swapped.put(entry.getValue(), entry.getKey());
@@ -77,8 +75,29 @@ public class CompressionHandler {
         for (int i = 0; i < compressSize; i++){
             curCode += bitIn.readBits(1);
             if(tree.codes.containsValue(curCode)){
+                if(swapped.get(curCode) == null){
+                    break;
+                }
                 writer.write(swapped.get(curCode));
+                writer.flush();
                 curCode = "";
+            }
+        }
+    }
+
+    public void printCodes(){
+        for (Map.Entry<Character, Integer> c : freq.entrySet()) {
+            if(c.getKey() == null){
+                System.out.println("null | " + c.getValue());
+            }
+            else if(c.getKey().equals('\n')){
+                System.out.println("\\n | " + c.getValue());
+            }
+            else if(c.getKey().equals('\r')){
+                System.out.println("\\r | " + c.getValue());
+            }
+            else {
+                System.out.println(c.getKey() + " | " + c.getValue());
             }
         }
     }
@@ -87,13 +106,7 @@ public class CompressionHandler {
         CompressionHandler brick = new CompressionHandler("dream.txt");
         brick.compress();
         brick.decompress();
-//        File out = new File("freqs.csv");
-//        out.createNewFile();
-//        FileWriter writer = new FileWriter(out);
-//        for (Map.Entry<Character, Integer> c : brick.freq.entrySet()) {
-//            writer.write(c.getKey() + "," + c.getValue() + "\n");
-//            writer.flush();
-//        }
-    }
 
+        brick.tree.printCodes();
+    }
 }
