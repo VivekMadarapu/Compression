@@ -1,25 +1,21 @@
 public class Node implements Comparable{
-    private Entry data;
-    private Node parent;
-    private Node left;
-    private Node right;
+    public Character data;
+    public int frequency;
+    public Node parent;
+    public Node left;
+    public Node right;
 
-    public Node() {
-        data = null;
+    public Node(Character data, int frequency) {
+        this.data = data;
+        this.frequency = frequency;
         left = null;
         right = null;
         parent = null;
     }
 
-    public Node(Entry item) {
-        data = item;
-        left = null;
-        right = null;
-        parent = null;
-    }
-
-    public Node(Entry item, Node left, Node right) {
-        data = item;
+    public Node(Character data, int frequency, Node left, Node right) {
+        this.data = data;
+        this.frequency = frequency;
         left.setParent(this);
         this.left = left;
         right.setParent(this);
@@ -27,29 +23,16 @@ public class Node implements Comparable{
     }
 
     public Node(Node root) {
-        data = root.getData();
-        left = root.getLeft();
-        right = root.getRight();
-        parent = root.getParent();
+        data = root.data;
+        frequency = root.frequency;
+        left = root.left;
+        right = root.right;
+        parent = root.parent;
     }
 
-    public Entry getData() {
-        return data;
-    }
-
-    public void setData(Entry item) { data = item; }
+    public void setData(Character item) { data = item; }
 
     public void setParent(Node p) { parent = p; }
-
-    public Node getParent() { return parent; }
-
-    public Node getLeft() {
-        return left;
-    }
-
-    public Node getRight() {
-        return right;
-    }
 
     public void setLeft(Node item) {
         item.setParent(this);
@@ -69,8 +52,11 @@ public class Node implements Comparable{
         else if(!o.getClass().equals(Node.class)){
             throw new ClassCastException();
         }
-        else if(((Node) o).data.frequency != data.frequency){
-            return data.compareTo(((Node) o).data);
+        else if(((Node) o).frequency < frequency){
+            return 1;
+        }
+        else if(((Node) o).frequency > frequency){
+            return -1;
         }
         return 0;
     }

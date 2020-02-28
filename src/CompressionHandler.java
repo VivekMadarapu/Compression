@@ -9,7 +9,6 @@ public class CompressionHandler {
     public HuffmanTree tree;
     private File input;
     private File output;
-    private File decOutput;
     private int compressSize;
 
     public CompressionHandler(String file) throws FileNotFoundException {
@@ -81,23 +80,6 @@ public class CompressionHandler {
                 writer.write(swapped.get(curCode));
                 writer.flush();
                 curCode = "";
-            }
-        }
-    }
-
-    public void printCodes(){
-        for (Map.Entry<Character, Integer> c : freq.entrySet()) {
-            if(c.getKey() == null){
-                System.out.println("null | " + c.getValue());
-            }
-            else if(c.getKey().equals('\n')){
-                System.out.println("\\n | " + c.getValue());
-            }
-            else if(c.getKey().equals('\r')){
-                System.out.println("\\r | " + c.getValue());
-            }
-            else {
-                System.out.println(c.getKey() + " | " + c.getValue());
             }
         }
     }

@@ -11,7 +11,7 @@ public class HuffmanTree {
         intCodes = new HashMap<>();
         Set<Character> keys = frequencies.keySet();
         for (Character key : keys) {
-            tree.add(new Node(new Entry(key, frequencies.get(key))));
+            tree.add(new Node(key, frequencies.get(key)));
         }
         makeTree();
         makeCodes(tree.peek(), "", 0);
@@ -21,7 +21,7 @@ public class HuffmanTree {
         while(tree.size() > 1){
             Node first = tree.poll();
             Node second = tree.poll();
-            Node newNode = new Node(new Entry('\0', first.getData().frequency + second.getData().frequency));
+            Node newNode = new Node('\0', first.frequency + second.frequency);
             newNode.setLeft(first);
             newNode.setRight(second);
             tree.add(newNode);
@@ -33,16 +33,15 @@ public class HuffmanTree {
         if (root == null) {
             return;
         }
-
-        if (root.getLeft() == null && root.getRight() == null) {
-            codes.put(root.getData().data, str);
-            intCodes.put(root.getData().data, bit);
+        if (root.left == null && root.right == null) {
+            codes.put(root.data, str);
+            intCodes.put(root.data, bit);
         }
         int leftBit = bit << 1;
         int rightBit = (bit << 1) | 1;
 
-        makeCodes(root.getLeft(), str + "0", leftBit);
-        makeCodes(root.getRight(), str + "1", rightBit);
+        makeCodes(root.left, str + "0", leftBit);
+        makeCodes(root.right, str + "1", rightBit);
     }
 
     public void printCodes(){
