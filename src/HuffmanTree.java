@@ -4,20 +4,21 @@ public class HuffmanTree {
     public PriorityQueue<Node> tree;
     public Map<Character, String> codes;
     public Map<Character, Integer> intCodes;
+    public Map<Integer, Character> swappedIntCodes;
 
     public HuffmanTree(HashMap<Character, Integer> frequencies){
         tree = new PriorityQueue<>();
         codes = new HashMap<>();
         intCodes = new HashMap<>();
-        Set<Character> keys = frequencies.keySet();
-        for (Character key : keys) {
-            tree.add(new Node(key, frequencies.get(key)));
+        swappedIntCodes = new HashMap<>();
+        for(Map.Entry<Character,Integer> entry : frequencies.entrySet()) {
+            tree.add(new Node(entry.getKey(), entry.getValue()));
         }
-        makeTree();
-        makeCodes(tree.peek(), "", 0);
+        initTree();
+        initCodes(tree.peek(), "", 0);
     }
 
-    private void makeTree() {
+    private void initTree() {
         while(tree.size() > 1){
             Node first = tree.poll();
             Node second = tree.poll();
@@ -28,7 +29,7 @@ public class HuffmanTree {
         }
     }
 
-    public void makeCodes(Node root, String str, int bit)
+    public void initCodes(Node root, String str, int bit)
     {
         if (root == null) {
             return;
@@ -36,12 +37,13 @@ public class HuffmanTree {
         if (root.left == null && root.right == null) {
             codes.put(root.data, str);
             intCodes.put(root.data, bit);
+            swappedIntCodes.put(bit, root.data);
         }
         int leftBit = bit << 1;
         int rightBit = (bit << 1) | 1;
 
-        makeCodes(root.left, str + "0", leftBit);
-        makeCodes(root.right, str + "1", rightBit);
+        initCodes(root.left, str + "0", leftBit);
+        initCodes(root.right, str + "1", rightBit);
     }
 
     public void printCodes(){

@@ -22,12 +22,12 @@ public class CompressionHandler {
         Scanner reader = new Scanner(new File(file));
         reader.useDelimiter("");
         while(reader.hasNext()){
-            Character o = reader.next().charAt(0);
-            if(!freq.containsKey(o)){
-                freq.put(o, 1);
+            Character c = reader.next().charAt(0);
+            if(!freq.containsKey(c)){
+                freq.put(c, 1);
             }
             else {
-                freq.put(o, freq.get(o)+1);
+                freq.put(c, freq.get(c)+1);
             }
         }
         freq.put(null, 1);
@@ -66,18 +66,14 @@ public class CompressionHandler {
         out.createNewFile();
         BitInputStream bitIn = new BitInputStream(output);
         BufferedWriter writer = new BufferedWriter(new FileWriter(out));
-        Map<String, Character> swapped = new HashMap<>();
-        for(Map.Entry<Character,String> entry : tree.codes.entrySet()) {
-            swapped.put(entry.getValue(), entry.getKey());
-        }
         String curCode = "";
         for (int i = 0; i < compressSize; i++){
             curCode += bitIn.readBits(1);
             if(tree.codes.containsValue(curCode)){
-                if(swapped.get(curCode) == null){
+                if(tree.swappedIntCodes.get(Integer.parseInt(curCode, 2)) == null){
                     break;
                 }
-                writer.write(swapped.get(curCode));
+                writer.write(tree.swappedIntCodes.get(Integer.parseInt(curCode, 2)));
                 writer.flush();
                 curCode = "";
             }
