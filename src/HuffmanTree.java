@@ -3,12 +3,14 @@ import java.util.*;
 public class HuffmanTree {
     public PriorityQueue<Node> tree;
     public Map<Character, String> codes;
+    public Map<String, Character> swappedCodes;
     public Map<Character, Integer> intCodes;
     public Map<Integer, Character> swappedIntCodes;
 
     public HuffmanTree(HashMap<Character, Integer> frequencies){
         tree = new PriorityQueue<>();
         codes = new HashMap<>();
+        swappedCodes = new HashMap<>();
         intCodes = new HashMap<>();
         swappedIntCodes = new HashMap<>();
         for(Map.Entry<Character,Integer> entry : frequencies.entrySet()) {
@@ -36,6 +38,7 @@ public class HuffmanTree {
         }
         if (root.left == null && root.right == null) {
             codes.put(root.data, str);
+            swappedCodes.put(str, root.data);
             intCodes.put(root.data, bit);
             swappedIntCodes.put(bit, root.data);
         }

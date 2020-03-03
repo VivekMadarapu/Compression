@@ -52,11 +52,8 @@ public class Node implements Comparable{
         else if(!o.getClass().equals(Node.class)){
             throw new ClassCastException();
         }
-        else if(((Node) o).frequency < frequency){
-            return 1;
-        }
-        else if(((Node) o).frequency > frequency){
-            return -1;
+        else if(((Node) o).frequency != frequency){
+            return frequency - ((Node) o).frequency;
         }
         return 0;
     }
